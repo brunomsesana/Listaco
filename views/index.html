@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" href="../public/style.css">
+    <title>Listaço</title>
+</head>
+<body>
+    <div class="container centralized">
+        <h1>Listaço</h1>
+    </div>
+    <div class="empty"></div>
+    <div class="container-fluid listbox row" id="listbox">
+        <div class="container centralized list" ondragover="allowDrop(event)" ondrop="drop(event)">
+            
+        </div>
+        <div class="container centralized list" ondragover="allowDrop(event)" ondrop="drop(event)" id="final">
+            <button class="btn item" draggable="true" ondragstart="drag(event)" id="1" type="button" onclick="newList()">Adicionar nova lista +</button>
+        </div>
+    </div>
+</body>
+<script src="../public/index.js"></script>
+</html>
