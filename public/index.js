@@ -18,3 +18,8 @@ function newList(){
     list.setAttribute('ondrop', "drop(event)")
     listbox.insertBefore(list, final)
 }
+function newCard(l){
+    var card = document.createElement('h5')
+    card.className = "item"
+    l.parentNode.insertBefore(card, l)
+}
