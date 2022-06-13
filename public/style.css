@@ -1,3 +1,18 @@
+@media (min-width: 1348px){ 
+    .changed{
+        width: 80%;
+    }
+}
+@media (min-width: 951px) and (max-width: 1347px){
+    .changed{
+        width: 70%;
+    }
+}
+@media (max-width: 950px) {
+    .changed{
+        width: 60%;
+    }
+}
 body{
     background-color: #5e1224;
 }
@@ -18,10 +33,12 @@ body{
     padding: 10px;
     width: 99%;
     overflow-x: auto;
+    height: fit-content;
 }
 .list{
     background-color: gray;
     width: 15%;
+    height: fit-content;
 }
 .item{
     background-color: darkgray;
