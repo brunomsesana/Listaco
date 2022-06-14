@@ -44,3 +44,9 @@ body{
     background-color: darkgray;
     border-radius: 10px;
 }
+.login{
+    width: 20%;
+}
+.empty2{
+    padding-top: 10px;
+}

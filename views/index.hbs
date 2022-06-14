@@ -11,11 +11,13 @@
 <body>
     <div class="container centralized">
         <h1>Listaço</h1>
+        <a href="/login">Logout</a>
     </div>
     <div class="empty"></div>
     <div class="container-fluid listbox row" id="listbox">
-        <div class="container centralized list" ondragover="allowDrop(event)" ondrop="drop(event, this)" id="list1">
-            <h5 type="button" style="width: fit-content;" onclick="deleteEl(this)">X</h5>
+        <div class="container centralized list" ondragover="allowDrop(event)" ondrop="drop(event, this)" id="list1" onmouseenter="appearbtn(this)" onmouseleave="hidebtn(this)">
+            <h5 class="del" type="button" style="width: fit-content;" onclick="deleteEl(this)" hidden>X</h5>
+            <input hidden="" type="number" value="0">
             <button class="btn item" id="createcard" type="button" onclick="newCard(this)">Adicionar novo cartão + </button>
         </div>
         <div class="container centralized list" id="final">
@@ -26,5 +28,15 @@
         <button onclick="save()" class="btn btn-primary" type="button" style="position: fixed; right: 10px; top: 10px;">Save</button>
     </div>
 </body>
+<script>
+    list = {{list}}
+    item = []
+</script>
+{{#each item}}
+    <script>
+        item[item.length] = "{{this}}"
+    </script>
+{{/each}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="/index.js"></script>
 </html>

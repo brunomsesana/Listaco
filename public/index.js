@@ -1,3 +1,10 @@
+for (i=1; i<list; i++){
+    newList()
+}
+for (i=1; i<item.length; i+=2){
+    var card = newCard(document.getElementById('list' + item[i-1]).getElementsByTagName('button')[0])
+    card.innerHTML = item[i]
+}
 function drag(e){
     e.dataTransfer.setData("text", e.target.id);
 }
@@ -5,11 +12,12 @@ function drop(e, lb){
     e.preventDefault();
     var data = e.dataTransfer.getData("text");
     lb.insertBefore(document.getElementById(data), lb.querySelector('#createcard'))
-    document.getElementById(data).setAttribute("onmouseenter", "deleteBtn('" + lb.id + (lb.children.length - 2) + "')")
-    document.getElementById(data).setAttribute("onmouseleave", "deleteBtnoff('" + lb.id + (lb.children.length - 2) + "')")
-    document.getElementById(data.replace('div', '')).id = lb.id + (lb.children.length - 2)
-    document.getElementById(data.replace('div', 'btn')).id = lb.id + (lb.children.length - 2) + 'btn'
-    document.getElementById(data).id = lb.id + (lb.children.length - 2) + 'div'
+    lb.getElementsByTagName('input')[0].value ++
+    document.getElementById(data).setAttribute("onmouseenter", "deleteBtn('" + lb.id + (lb.getElementsByTagName('input')[0].value) + "')")
+    document.getElementById(data).setAttribute("onmouseleave", "deleteBtnoff('" + lb.id + (lb.getElementsByTagName('input')[0].value) + "')")
+    document.getElementById(data.replace('div', '')).id = lb.id + (lb.getElementsByTagName('input')[0].value)
+    document.getElementById(data.replace('div', 'btn')).id = lb.id + (lb.getElementsByTagName('input')[0].value) + 'btn'
+    document.getElementById(data).id = lb.id + (lb.getElementsByTagName('input')[0].value) + 'div'
 }
 function allowDrop(e){
     e.preventDefault()
@@ -21,13 +29,17 @@ function newList(){
     var delbtn = document.createElement('h5')
     delbtn.setAttribute('type', 'button')
     delbtn.setAttribute('onclick', 'deleteEl(this)')
+    delbtn.className = 'del'
     delbtn.innerHTML = 'X'
     delbtn.style="width: fit-content;"
+    delbtn.hidden = true
     list.appendChild(delbtn)
     list.className = "container centralized list"
     list.setAttribute('ondragover', "allowDrop(event)")
     list.setAttribute('ondrop', "drop(event, this)")
     listbox.insertBefore(list, final)
+    list.setAttribute('onmouseenter', 'appearbtn(this)')
+    list.setAttribute('onmouseleave', 'hidebtn(this)')
     var btn = document.createElement('button')
     list.id = 'list' + (listbox.children.length - 1)
     btn.id = 'createcard'
@@ -35,6 +47,11 @@ function newList(){
     btn.type = 'button'
     btn.setAttribute('onclick', 'newCard(this)')
     btn.innerHTML = 'Adicionar novo cartão +'
+    var idi = document.createElement('input')
+    idi.hidden = true
+    idi.type = 'number'
+    idi.value = 0
+    list.appendChild(idi)
     // var btn = document.getElementById('createcard').cloneNode()
     // btn.innerHTML = document.getElementById('createcard').innerHTML
     list.appendChild(btn)
@@ -55,11 +72,13 @@ function newCard(l){
     card.setAttribute('contenteditable', true)
     div.setAttribute('draggable', true)
     div.setAttribute('ondragstart', 'drag(event)')
-    div.setAttribute("onmouseenter", "deleteBtn('" + l.parentNode.id + (l.parentNode.children.length - 2) + "')")
-    div.setAttribute("onmouseleave", "deleteBtnoff('" + l.parentNode.id + (l.parentNode.children.length - 2) + "')")
-    div.id = l.parentNode.id + (l.parentNode.children.length - 2) + 'div'
-    card.id = l.parentNode.id + (l.parentNode.children.length - 2)
-    btn.id = l.parentNode.id + (l.parentNode.children.length - 2) + 'btn'
+    l.parentNode.getElementsByTagName('input')[0].value++
+    div.setAttribute("onmouseenter", "deleteBtn('" + l.parentNode.id + (l.parentNode.getElementsByTagName('input')[0].value) + "')")
+    div.setAttribute("onmouseleave", "deleteBtnoff('" + l.parentNode.id + (l.parentNode.getElementsByTagName('input')[0].value) + "')")
+    div.id = l.parentNode.id + (l.parentNode.getElementsByTagName('input')[0].value) + 'div'
+    card.id = l.parentNode.id + (l.parentNode.getElementsByTagName('input')[0].value)
+    btn.id = l.parentNode.id + (l.parentNode.getElementsByTagName('input')[0].value) + 'btn'
+    return card;
 }
 function deleteBtn(e){
     document.getElementById(e).style = 'display: inline-block; float: left;'
@@ -75,13 +94,21 @@ function deleteEl(t){
     t.parentNode.remove()
 }
 function save(){
-    console.log(document.getElementById('listbox').children.length - 1)
-    list = ['ignore']
+    var list = ['ignore']
     for(var i=1; i<document.getElementById('listbox').children.length; i++){
-        list[i] = {}
-        for(var j=1; j<document.getElementById('list' + i).children.length - 1; j++){
-            list[i][j] = document.getElementById('list' + i + j).innerHTML
+        list[i] = ['ignore']
+        for(var j=1; j<document.getElementById('list' + i).getElementsByTagName('input')[0].value + 1; j++){
+            if(document.getElementById('list' + i + j)){
+                list[i][list[i].length] = document.getElementById('list' + i + j).innerHTML
+            }
         }
     }
     console.log(list)
+    $.post("/save", {list: list})
+}
+function hidebtn(t){
+    t.getElementsByClassName('del')[0].hidden = true
+}
+function appearbtn(t){
+    t.getElementsByClassName('del')[0].hidden = false
 }
