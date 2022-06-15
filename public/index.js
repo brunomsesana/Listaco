@@ -2,7 +2,8 @@ for (i=1; i<list; i++){
     newList()
 }
 for (i=1; i<item.length; i+=2){
-    var card = newCard(document.getElementById('list' + item[i-1]).getElementsByTagName('button')[0])
+    // console.log(document.getElementById('list' + item[i-1]).lastElementChild)
+    var card = newCard(document.getElementById('list' + item[i-1]).lastElementChild)
     card.innerHTML = item[i]
 }
 function drag(e){
@@ -27,6 +28,10 @@ function newList(){
     const final = document.getElementById('final')
     var list = document.createElement('div')
     var delbtn = document.createElement('h5')
+    var idi = document.createElement('input')
+    idi.hidden = true
+    idi.type = 'number'
+    idi.value = 0
     delbtn.setAttribute('type', 'button')
     delbtn.setAttribute('onclick', 'deleteEl(this)')
     delbtn.className = 'del'
@@ -47,10 +52,6 @@ function newList(){
     btn.type = 'button'
     btn.setAttribute('onclick', 'newCard(this)')
     btn.innerHTML = 'Adicionar novo cartão +'
-    var idi = document.createElement('input')
-    idi.hidden = true
-    idi.type = 'number'
-    idi.value = 0
     list.appendChild(idi)
     // var btn = document.getElementById('createcard').cloneNode()
     // btn.innerHTML = document.getElementById('createcard').innerHTML
@@ -65,6 +66,7 @@ function newCard(l){
     btn.style = 'float: right; width: fit-content;'
     btn.hidden = true
     btn.setAttribute('onclick', 'deleteEl(this)')
+    card.style = 'clear: both;'
     card.className = "container item"
     div.appendChild(card)
     div.appendChild(btn)

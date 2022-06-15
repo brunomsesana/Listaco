@@ -16,7 +16,7 @@ router.get('/', (req, res) =>{
                     item[item.length] = results.rows[i].list
                     item[item.length] = results.rows[i].text
                 }
-                res.render('index.hbs', {list: list, item: item})
+                res.render('index.hbs', {list: list[list.length-1], item: item})
             } else {
                 res.render('index.hbs')
             }
@@ -40,9 +40,9 @@ router.post('/save', (req, res) =>{
         }
     }
     if (ndel == true){
+        db.query('DELETE FROM listaco WHERE owner=$1', [req.session.login])
         for(i=1; i<req.body.list.length; i++){
             for(j=1; j<req.body.list[i].length; j++){
-                db.query('DELETE FROM listaco WHERE owner=$1', [req.session.login])
                 db.query("INSERT INTO listaco(owner, list, text) VALUES($1, $2, $3)", [req.session.login, i, req.body.list[i][j]])
             }
         }
