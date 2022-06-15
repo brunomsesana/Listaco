@@ -31,13 +31,21 @@ body{
     background-color: beige;
     border-radius: 10px;
     padding: 10px;
+    margin-left: 0.5%;
     width: 99%;
-    overflow-x: auto;
     height: fit-content;
+    display: flex;
+    flex-direction: row, column;
+    justify-content: space-around;
+    gap: 1%;
+}
+.xover{
+    overflow-x: auto;
 }
 .list{
     background-color: gray;
     width: 15%;
+    min-width: 15%;
     height: fit-content;
 }
 .item{
@@ -49,4 +57,14 @@ body{
 }
 .empty2{
     padding-top: 10px;
+}
+.panel{
+    position: fixed; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    top: 50%; 
+    height: 80%; 
+    width: 40%;
+    background-color: #444444;
+    color: whitesmoke;
 }

@@ -6,6 +6,8 @@ for (i=1; i<item.length; i+=2){
     var card = newCard(document.getElementById('list' + item[i-1]).lastElementChild)
     card.innerHTML = item[i]
 }
+const panel = document.getElementById('panel')
+var using
 function drag(e){
     e.dataTransfer.setData("text", e.target.id);
 }
@@ -71,9 +73,9 @@ function newCard(l){
     div.appendChild(card)
     div.appendChild(btn)
     l.parentNode.insertBefore(div, l)
-    card.setAttribute('contenteditable', true)
     div.setAttribute('draggable', true)
     div.setAttribute('ondragstart', 'drag(event)')
+    card.setAttribute('onclick', 'openPanel(this)')
     l.parentNode.getElementsByTagName('input')[0].value++
     div.setAttribute("onmouseenter", "deleteBtn('" + l.parentNode.id + (l.parentNode.getElementsByTagName('input')[0].value) + "')")
     div.setAttribute("onmouseleave", "deleteBtnoff('" + l.parentNode.id + (l.parentNode.getElementsByTagName('input')[0].value) + "')")
@@ -113,4 +115,17 @@ function hidebtn(t){
 }
 function appearbtn(t){
     t.getElementsByClassName('del')[0].hidden = false
+}
+function openPanel(t){
+    panel.hidden = false
+    panel.querySelector('#inp').value = t.innerHTML
+    using = t.id
+}
+function closePanel(){
+    panel.hidden = true;
+}
+function savePanel(){
+    var btn = document.getElementById(using)
+    btn.innerHTML = panel.querySelector('#inp').value
+    panel.hidden = true
 }
