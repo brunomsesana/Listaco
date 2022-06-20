@@ -29,18 +29,32 @@
     </div>
     <div class="container panel" id="panel" hidden>
         <input type="text" class="form-control" placeholder="Nome" id="inp">
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="check1">
-            <label class="form-check-label" for="check1">Batata</label>
+        {{!-- <h5>Sem anotações</h5> --}}
+        <div id="innerPanel" class="pad10 centralized xover">
+            <label for="innerText">Descrição</label>
+            <div class="pad10"></div>
+            <textarea class="form-control" name="innerText" id="innerText" cols="10" rows="4"></textarea>
+            <div class="pad10"></div>
+            <button class="btn btn-primary" onclick="createChecklist()">Adicionar Checklist</button>
+            <div class="pad10"></div>
+        </div>
             <button onclick="closePanel()" style="position: absolute; right: 78px; bottom: 5px;" class="btn btn-primary">Cancelar</button>
             <button onclick="savePanel()" style="position: absolute; right: 5px; bottom: 5px;" class="btn btn-primary">Salvar</button>
-        </div>
     </div>
+    <div id="inps" hidden></div>
 </body>
+{{#if list}}
 <script>
     list = {{list}};
     item = [];
 </script>
+{{/if}} 
+{{#unless list}}
+<script>
+    list = false;
+    item = [];
+</script>
+{{/unless}}
 {{#each item}}
     <script>
         item[item.length] = "{{this}}"

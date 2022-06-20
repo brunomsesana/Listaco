@@ -43,7 +43,11 @@ router.post('/save', (req, res) =>{
         db.query('DELETE FROM listaco WHERE owner=$1', [req.session.login])
         for(i=1; i<req.body.list.length; i++){
             for(j=1; j<req.body.list[i].length; j++){
-                db.query("INSERT INTO listaco(owner, list, text) VALUES($1, $2, $3)", [req.session.login, i, req.body.list[i][j]])
+                db.query('INSERT INTO listaco (list, text, owner, inne) VALUES ($1, $2, $3, $4)', [i, req.body.list[i][j][0], req.session.login, req.body.list[i][j][1]], (error, results) => {
+                    if (error){
+                        console.log(error)
+                    }
+                })
             }
         }
     }  else {

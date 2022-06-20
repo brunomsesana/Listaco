@@ -2,22 +2,31 @@
     .changed{
         width: 80%;
     }
+    .listbox{
+        flex-direction: row;
+    }
 }
 @media (min-width: 951px) and (max-width: 1347px){
     .changed{
         width: 70%;
+    }
+    .listbox{
+        flex-direction: row;
     }
 }
 @media (max-width: 950px) {
     .changed{
         width: 60%;
     }
+    .listbox{
+        flex-direction: column;
+    }
 }
 body{
     background-color: #5e1224;
 }
 .container{
-    background-color: beige;
+    background-color: rgb(245, 245, 220);
     border-radius: 10px;
     padding: 10px;
 }
@@ -31,26 +40,28 @@ body{
     background-color: beige;
     border-radius: 10px;
     padding: 10px;
-    margin-left: 0.5%;
+    margin-left: auto;
     width: 99%;
-    height: fit-content;
-    display: flex;
-    flex-direction: row, column;
-    justify-content: space-around;
+    min-height: 500px;
+    max-height: 800px;
+    display:flex;
     gap: 1%;
 }
 .xover{
+    overflow-y: auto;
     overflow-x: auto;
 }
 .list{
     background-color: gray;
     width: 15%;
-    min-width: 15%;
+    min-width: fit-content;
     height: fit-content;
+    margin-bottom: 1%;
 }
 .item{
     background-color: darkgray;
     border-radius: 10px;
+    overflow-x: auto;
 }
 .login{
     width: 20%;
@@ -67,4 +78,20 @@ body{
     width: 40%;
     background-color: #444444;
     color: whitesmoke;
+}
+#innerPanel{
+    height: 85%;
+}
+#innerText{
+    resize: none;
+    min-height: 30px;
+}
+.pad10{
+    padding: 10px;
+}
+.checklist{
+    background-color: gray;
+}
+.checkbox{
+    background-color: darkgray;
 }

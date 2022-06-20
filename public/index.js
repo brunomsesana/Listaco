@@ -1,10 +1,12 @@
-for (i=1; i<list; i++){
-    newList()
-}
-for (i=1; i<item.length; i+=2){
-    // console.log(document.getElementById('list' + item[i-1]).lastElementChild)
-    var card = newCard(document.getElementById('list' + item[i-1]).lastElementChild)
-    card.innerHTML = item[i]
+if (list){
+    for (i=1; i<list; i++){
+        newList()
+    }
+    for (i=1; i<item.length; i+=2){
+        // console.log(document.getElementById('list' + item[i-1]).lastElementChild)
+        var card = newCard(document.getElementById('list' + item[i-1]).lastElementChild)
+        card.innerHTML = item[i]
+    }
 }
 const panel = document.getElementById('panel')
 var using
@@ -103,7 +105,7 @@ function save(){
         list[i] = ['ignore']
         for(var j=1; j<document.getElementById('list' + i).getElementsByTagName('input')[0].value + 1; j++){
             if(document.getElementById('list' + i + j)){
-                list[i][list[i].length] = document.getElementById('list' + i + j).innerHTML
+                list[i][list[i].length] = [document.getElementById('list' + i + j).innerHTML, input(i, j)]
             }
         }
     }
@@ -128,4 +130,96 @@ function savePanel(){
     var btn = document.getElementById(using)
     btn.innerHTML = panel.querySelector('#inp').value
     panel.hidden = true
+    if (!document.getElementById(using + 'inp')){
+        var inp = document.createElement('h2')
+        inp.id = using + 'inp'
+        inp.innerHTML = document.getElementById('innerPanel').innerHTML
+        document.getElementById('inps').appendChild(inp)
+    } else {
+        document.getElementById(using + 'inp').innerHTML = document.getElementById('innerPanel').innerHTML
+    }
+}
+function check(t){
+    if (t.checked){
+        t.setAttribute('checked', 'true')
+    } else {
+        t.removeAttribute('checked')
+    }
+}
+function createChecklist(){
+    /*<div class="container checklist">
+        <input class="form-control" type="text" placeholder="Nome da Checklist">
+        <div class="pad10"></div>
+        <div class="container checkbox">
+            <input type="checkbox" class="form-check-input" id="check1" onchange="check(this)" style="float: right;">
+            <h5 contenteditable="true" style="float: left;">Checkbox</h5>
+            <div style="clear: both;"></div>
+        </div>
+        <div class="pad10"></div>
+        <button class="btn btn-primary">Adicionar Checkbox</button>
+    </div>*/
+    var innerPanel = document.getElementById('innerPanel')
+    var checklist = document.createElement('div')
+    checklist.className = 'container checklist'
+    var listName = document.createElement('input')
+    listName.className = 'form-control'
+    listName.type = 'text'
+    listName.placeholder = 'Nome da Checklist'
+    var pad10 = document.createElement('div')
+    pad10.className = 'pad10'
+    var checkbox = document.createElement('div')
+    checkbox.className = 'container checkbox'
+    var check = document.createElement('input')
+    check.type = 'checkbox'
+    check.className = 'form-check-input'
+    check.setAttribute('onchange', 'check(this)')
+    check.style = 'float: right;'
+    var checkName = document.createElement('h5')
+    checkName.contentEditable = true
+    checkName.style = 'float: left;'
+    checkName.innerHTML = 'Escreva o nome do checkbox'
+    var clearDiv = document.createElement('div')
+    clearDiv.style = 'clear: both;'
+    var createCheckbox = document.createElement('button')
+    createCheckbox.className = 'btn btn-primary'
+    createCheckbox.innerHTML = 'Adicionar Checkbox'
+    createCheckbox.setAttribute('onclick', 'createCheckbox(this)')
+    checkbox.appendChild(check)
+    checkbox.appendChild(checkName)
+    checkbox.appendChild(clearDiv)
+    checklist.appendChild(listName)
+    checklist.appendChild(pad10)
+    checklist.appendChild(checkbox)
+    checklist.appendChild(pad10.cloneNode())
+    checklist.appendChild(createCheckbox)
+    innerPanel.appendChild(checklist)
+}
+function createCheckbox(t){
+    var checkbox = document.createElement('div')
+    checkbox.className = 'container checkbox'
+    var check = document.createElement('input')
+    check.type = 'checkbox'
+    check.className = 'form-check-input'
+    check.setAttribute('onchange', 'check(this)')
+    check.style = 'float: right;'
+    var checkName = document.createElement('h5')
+    checkName.contentEditable = true
+    checkName.style = 'float: left;'
+    checkName.innerHTML = 'Escreva o nome do checkbox'
+    var clearDiv = document.createElement('div')
+    clearDiv.style = 'clear: both;'
+    var pad10 = document.createElement('div')
+    pad10.className = 'pad10'
+    checkbox.appendChild(check)
+    checkbox.appendChild(checkName)
+    checkbox.appendChild(clearDiv)
+    t.parentNode.insertBefore(checkbox, t)
+    t.parentNode.insertBefore(pad10, t)
+}
+function input(i, j){
+    if(document.getElementById('list' + i + j + 'inp')){
+        return document.getElementById('list' + i + j + 'inp').innerHTML
+    } else {
+        return ''
+    }
 }
