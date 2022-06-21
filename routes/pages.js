@@ -5,18 +5,20 @@ const router = express.Router()
 
 router.get('/', (req, res) =>{
     if (req.session.login != null){
-        db.query("SELECT list, text FROM listaco WHERE owner=$1", [req.session.login], (error, results) => {
+        db.query("SELECT list, text, inne FROM listaco WHERE owner=$1", [req.session.login], (error, results) => {
             if (results.rowCount > 0){
                 var list = []
                 var item = []
+                var inne = []
                 for(var i = 0; i<results.rowCount; i++){
                     if (!list.includes(results.rows[i].list)){
                         list[list.length] = results.rows[i].list
                     }
                     item[item.length] = results.rows[i].list
+                    inne[item.length] = results.rows[i].inne
                     item[item.length] = results.rows[i].text
                 }
-                res.render('index.hbs', {list: list[list.length-1], item: item})
+                res.render('index.hbs', {list: list.sort()[list.length-1], item: item, inne: JSON.stringify(inne)})
             } else {
                 res.render('index.hbs')
             }

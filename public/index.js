@@ -2,10 +2,19 @@ if (list){
     for (i=1; i<list; i++){
         newList()
     }
+    console.log(list)
     for (i=1; i<item.length; i+=2){
-        // console.log(document.getElementById('list' + item[i-1]).lastElementChild)
+        console.log(document.getElementById('list' + item[i-1]))
         var card = newCard(document.getElementById('list' + item[i-1]).lastElementChild)
         card.innerHTML = item[i]
+        if (!document.getElementById(card.id + 'inp')){
+            var inp = document.createElement('input')
+            inp.id = card.id + 'inp'
+            inp.setAttribute('value', inner[i])
+            document.getElementById('inps').appendChild(inp)
+        } else {
+            document.getElementById(card.id + 'inp').setAttribute('value', inner[i])
+        }
     }
 }
 const panel = document.getElementById('panel')
@@ -22,6 +31,7 @@ function drop(e, lb){
     document.getElementById(data).setAttribute("onmouseleave", "deleteBtnoff('" + lb.id + (lb.getElementsByTagName('input')[0].value) + "')")
     document.getElementById(data.replace('div', '')).id = lb.id + (lb.getElementsByTagName('input')[0].value)
     document.getElementById(data.replace('div', 'btn')).id = lb.id + (lb.getElementsByTagName('input')[0].value) + 'btn'
+    document.getElementById(data.replace('div', 'inp')).id = lb.id + (lb.getElementsByTagName('input')[0].value) + 'inp'
     document.getElementById(data).id = lb.id + (lb.getElementsByTagName('input')[0].value) + 'div'
 }
 function allowDrop(e){
@@ -122,6 +132,13 @@ function openPanel(t){
     panel.hidden = false
     panel.querySelector('#inp').value = t.innerHTML
     using = t.id
+    if(document.getElementById(using + 'inp')){
+        document.getElementById('innerPanel').innerHTML = document.getElementById(using + 'inp').value
+        document.getElementById('innerText').value = document.getElementById('innerText2').value
+    } else {
+        document.getElementById('innerPanel').innerHTML = '<label for="innerText">Descrição</label><div class="pad10"></div><textarea class="form-control" name="innerText" id="innerText" cols="10" rows="4" onchange="changet(this)"></textarea><input type="text" name="innerText2" id="innerText2" hidden><div class="pad10"></div><button class="btn btn-primary" onclick="createChecklist()">Adicionar Checklist</button><div class="pad10"></div>' 
+        document.getElementById('innerText').value = document.getElementById('innerText2').value
+    }
 }
 function closePanel(){
     panel.hidden = true;
@@ -131,12 +148,12 @@ function savePanel(){
     btn.innerHTML = panel.querySelector('#inp').value
     panel.hidden = true
     if (!document.getElementById(using + 'inp')){
-        var inp = document.createElement('h2')
+        var inp = document.createElement('input')
         inp.id = using + 'inp'
-        inp.innerHTML = document.getElementById('innerPanel').innerHTML
+        inp.setAttribute('value', $('#innerPanel').html())
         document.getElementById('inps').appendChild(inp)
     } else {
-        document.getElementById(using + 'inp').innerHTML = document.getElementById('innerPanel').innerHTML
+        document.getElementById(using + 'inp').value = $('#innerPanel').html()
     }
 }
 function check(t){
@@ -165,6 +182,7 @@ function createChecklist(){
     listName.className = 'form-control'
     listName.type = 'text'
     listName.placeholder = 'Nome da Checklist'
+    listName.setAttribute('onchange', 'change(this)')
     var pad10 = document.createElement('div')
     pad10.className = 'pad10'
     var checkbox = document.createElement('div')
@@ -218,8 +236,14 @@ function createCheckbox(t){
 }
 function input(i, j){
     if(document.getElementById('list' + i + j + 'inp')){
-        return document.getElementById('list' + i + j + 'inp').innerHTML
+        return $("#list" + i + j + "inp").val()
     } else {
-        return ''
+        return '<label for="innerText">Descrição</label><div class="pad10"></div><textarea class="form-control" name="innerText" id="innerText" cols="10" rows="4" onchange="changet(this)"></textarea><input type="text" name="innerText2" id="innerText2" hidden><div class="pad10"></div><button class="btn btn-primary" onclick="createChecklist()">Adicionar Checklist</button><div class="pad10"></div>'
     }
+}
+function change(t){
+    t.setAttribute('value', t.value)
+}
+function changet(t){
+    document.getElementById('innerText2').setAttribute('value', t.value)
 }
