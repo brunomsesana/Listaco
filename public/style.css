@@ -2,13 +2,27 @@
     .changed{
         width: 80%;
     }
+    .changedt{
+        width: 80%;
+    }
     .listbox{
         flex-direction: row;
+    }
+    .panel{
+        height: 80%; 
+        width: 40%;
     }
 }
 @media (min-width: 951px) and (max-width: 1347px){
     .changed{
         width: 70%;
+    }
+    .changedt{
+        width: 70%;
+    }
+    .panel{
+        height: 80%; 
+        width: 60%;
     }
     .listbox{
         flex-direction: row;
@@ -18,8 +32,15 @@
     .changed{
         width: 60%;
     }
+    .changedt{
+        width: 60%;
+    }
     .listbox{
         flex-direction: column;
+    }
+    .panel{
+        height: 80%; 
+        width: 80%;
     }
 }
 body{
@@ -74,8 +95,6 @@ body{
     left: 50%; 
     transform: translate(-50%, -50%); 
     top: 50%; 
-    height: 80%; 
-    width: 40%;
     background-color: #444444;
     color: whitesmoke;
 }
@@ -91,7 +110,9 @@ body{
 }
 .checklist{
     background-color: gray;
+    overflow-x: auto;
 }
 .checkbox{
     background-color: darkgray;
+    overflow-x: auto;
 }

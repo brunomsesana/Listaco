@@ -19,6 +19,7 @@ if (list){
 }
 const panel = document.getElementById('panel')
 var using
+var inte = 0
 function drag(e){
     e.dataTransfer.setData("text", e.target.id);
 }
@@ -27,8 +28,8 @@ function drop(e, lb){
     var data = e.dataTransfer.getData("text");
     lb.insertBefore(document.getElementById(data), lb.querySelector('#createcard'))
     lb.getElementsByTagName('input')[0].value ++
-    document.getElementById(data).setAttribute("onmouseenter", "deleteBtn('" + lb.id + (lb.getElementsByTagName('input')[0].value) + "')")
-    document.getElementById(data).setAttribute("onmouseleave", "deleteBtnoff('" + lb.id + (lb.getElementsByTagName('input')[0].value) + "')")
+    document.getElementById(data).setAttribute("onmouseenter", "deleteBtn('" + lb.id + (lb.getElementsByTagName('input')[0].value) + "', 'changed')")
+    document.getElementById(data).setAttribute("onmouseleave", "deleteBtnoff('" + lb.id + (lb.getElementsByTagName('input')[0].value) + "', 'changed')")
     document.getElementById(data.replace('div', '')).id = lb.id + (lb.getElementsByTagName('input')[0].value)
     document.getElementById(data.replace('div', 'btn')).id = lb.id + (lb.getElementsByTagName('input')[0].value) + 'btn'
     document.getElementById(data.replace('div', 'inp')).id = lb.id + (lb.getElementsByTagName('input')[0].value) + 'inp'
@@ -89,21 +90,22 @@ function newCard(l){
     div.setAttribute('ondragstart', 'drag(event)')
     card.setAttribute('onclick', 'openPanel(this)')
     l.parentNode.getElementsByTagName('input')[0].value++
-    div.setAttribute("onmouseenter", "deleteBtn('" + l.parentNode.id + (l.parentNode.getElementsByTagName('input')[0].value) + "')")
-    div.setAttribute("onmouseleave", "deleteBtnoff('" + l.parentNode.id + (l.parentNode.getElementsByTagName('input')[0].value) + "')")
+    div.setAttribute("onmouseenter", "deleteBtn('" + l.parentNode.id + (l.parentNode.getElementsByTagName('input')[0].value) + "', 'changed')")
+    div.setAttribute("onmouseleave", "deleteBtnoff('" + l.parentNode.id + (l.parentNode.getElementsByTagName('input')[0].value) + "', 'changed')")
     div.id = l.parentNode.id + (l.parentNode.getElementsByTagName('input')[0].value) + 'div'
     card.id = l.parentNode.id + (l.parentNode.getElementsByTagName('input')[0].value)
     btn.id = l.parentNode.id + (l.parentNode.getElementsByTagName('input')[0].value) + 'btn'
+    div.style = 'overflow: hidden;'
     return card;
 }
-function deleteBtn(e){
+function deleteBtn(e, c){
     document.getElementById(e).style = 'display: inline-block; float: left;'
-    document.getElementById(e).classList.add('changed')
+    document.getElementById(e).classList.add(c)
     document.getElementById(e + 'btn').hidden = false
 }
-function deleteBtnoff(e){
+function deleteBtnoff(e, c){
     document.getElementById(e).style = 'clear: both;'
-    document.getElementById(e).classList.remove('changed')
+    document.getElementById(e).classList.remove(c)
     document.getElementById(e + 'btn').hidden = true
 }
 function deleteEl(t){
@@ -164,17 +166,6 @@ function check(t){
     }
 }
 function createChecklist(){
-    /*<div class="container checklist">
-        <input class="form-control" type="text" placeholder="Nome da Checklist">
-        <div class="pad10"></div>
-        <div class="container checkbox">
-            <input type="checkbox" class="form-check-input" id="check1" onchange="check(this)" style="float: right;">
-            <h5 contenteditable="true" style="float: left;">Checkbox</h5>
-            <div style="clear: both;"></div>
-        </div>
-        <div class="pad10"></div>
-        <button class="btn btn-primary">Adicionar Checkbox</button>
-    </div>*/
     var innerPanel = document.getElementById('innerPanel')
     var checklist = document.createElement('div')
     checklist.className = 'container checklist'
@@ -185,36 +176,24 @@ function createChecklist(){
     listName.setAttribute('onchange', 'change(this)')
     var pad10 = document.createElement('div')
     pad10.className = 'pad10'
-    var checkbox = document.createElement('div')
-    checkbox.className = 'container checkbox'
-    var check = document.createElement('input')
-    check.type = 'checkbox'
-    check.className = 'form-check-input'
-    check.setAttribute('onchange', 'check(this)')
-    check.style = 'float: right;'
-    var checkName = document.createElement('h5')
-    checkName.contentEditable = true
-    checkName.style = 'float: left;'
-    checkName.innerHTML = 'Escreva o nome do checkbox'
-    var clearDiv = document.createElement('div')
-    clearDiv.style = 'clear: both;'
-    var createCheckbox = document.createElement('button')
-    createCheckbox.className = 'btn btn-primary'
-    createCheckbox.innerHTML = 'Adicionar Checkbox'
-    createCheckbox.setAttribute('onclick', 'createCheckbox(this)')
-    checkbox.appendChild(check)
-    checkbox.appendChild(checkName)
-    checkbox.appendChild(clearDiv)
+    pad10.style = 'clear:both;'
+    var createCheckboxx = document.createElement('button')
+    createCheckboxx.className = 'btn btn-primary'
+    createCheckboxx.innerHTML = 'Adicionar Checkbox'
+    createCheckboxx.setAttribute('onclick', 'createCheckbox(this)')
     checklist.appendChild(listName)
     checklist.appendChild(pad10)
-    checklist.appendChild(checkbox)
     checklist.appendChild(pad10.cloneNode())
-    checklist.appendChild(createCheckbox)
+    checklist.appendChild(createCheckboxx)
+    createCheckbox(createCheckboxx)
     innerPanel.appendChild(checklist)
+    inte += 1
 }
 function createCheckbox(t){
+    var div = document.createElement('div')
     var checkbox = document.createElement('div')
     checkbox.className = 'container checkbox'
+    checkbox.id = 'c' + inte;
     var check = document.createElement('input')
     check.type = 'checkbox'
     check.className = 'form-check-input'
@@ -228,11 +207,26 @@ function createCheckbox(t){
     clearDiv.style = 'clear: both;'
     var pad10 = document.createElement('div')
     pad10.className = 'pad10'
+    t.parentNode.insertBefore(div, t)
+    var btn = document.createElement('button')
+    btn.className = 'btn'
+    btn.innerHTML = 'X'
+    btn.style = 'float: right; width: fit-content;'
+    btn.hidden = true
+    btn.setAttribute('onclick', 'deleteEl(this)')
+    btn.id = checkbox.id + 'btn'
+    div.setAttribute('onmouseenter', 'deleteBtn("' + checkbox.id + '", "changedt")')
+    div.setAttribute('onmouseleave', 'deleteBtnoff("' + checkbox.id + '", "changedt")')
+    inte += 1
     checkbox.appendChild(check)
     checkbox.appendChild(checkName)
     checkbox.appendChild(clearDiv)
-    t.parentNode.insertBefore(checkbox, t)
-    t.parentNode.insertBefore(pad10, t)
+    div.className = 'container-fluid'
+    div.style = 'overflow: hidden;'
+    div.appendChild(checkbox)
+    div.appendChild(btn)
+    div.appendChild(pad10)
+    return div
 }
 function input(i, j){
     if(document.getElementById('list' + i + j + 'inp')){
