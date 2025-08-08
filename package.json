@@ -28,5 +28,10 @@
     "hbs": "^4.2.0",
     "nodemon": "^2.0.16",
     "pg": "^8.7.3"
+  },
+  "overrides": {
+    "simple-update-notifier": {
+      "semver": "^7.5.2"
+    }
   }
 }
